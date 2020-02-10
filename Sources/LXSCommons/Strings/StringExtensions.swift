@@ -5,6 +5,15 @@
 //  Created by Alex Rote on 12/5/19.
 //
 
+public extension String {
+    
+    init(_ staticString: StaticString) {
+        self = staticString.withUTF8Buffer {
+            String(decoding: $0, as: UTF8.self)
+        }
+    }
+}
+
 public extension StringProtocol {
     
     private func convertIndex(from index: Int) -> Index {

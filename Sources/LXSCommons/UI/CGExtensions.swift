@@ -20,10 +20,6 @@ public extension CGPoint {
         return CGVector(dx: x, dy: y)
     }
     
-    var gridPoint: Point {
-        return Point(x: Int(x), y: Int(y))
-    }
-    
     static func + (left: CGPoint, right: CGVector) -> CGPoint {
         return CGPoint(x: left.x + right.dx, y: left.y + right.dy)
     }
@@ -141,10 +137,6 @@ public extension CGSize {
     var area: CGFloat {
         return width * height
     }
-    
-    var gridSize: Size {
-        return Size(width: Int(width), height: Int(height))
-    }
 }
 
 public extension CGRect {
@@ -154,12 +146,12 @@ public extension CGRect {
             return CGPoint(x: midX, y: midY)
         }
         set(newCenter) {
-            self.origin = CGPoint(x: newCenter.x - (width / CGFloat(2.0)), y: newCenter.y - (width / CGFloat(2.0)))
+            self.origin = CGPoint(x: newCenter.x - (width / 2), y: newCenter.y - (width / 2))
         }
     }
     
     init(center: CGPoint, size: CGSize) {
-        self.init(origin: CGPoint(x: center.x - size.width / CGFloat(2.0), y: center.y - size.height / CGFloat(2.0)), size: size)
+        self.init(origin: CGPoint(x: center.x - size.width / 2, y: center.y - size.height / 2), size: size)
     }
     
     init(minX: CGFloat, minY: CGFloat, maxX: CGFloat, maxY: CGFloat) {
@@ -180,9 +172,5 @@ public extension CGRect {
     
     var maxXmaxYCorner: CGPoint {
         return CGPoint(x: maxX, y: maxY)
-    }
-    
-    var gridRect: Rect {
-        return Rect(origin: origin.gridPoint, size: size.gridSize)
     }
 }

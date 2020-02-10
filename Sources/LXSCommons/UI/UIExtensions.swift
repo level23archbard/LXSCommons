@@ -7,14 +7,18 @@
 //
 
 #if os(iOS)
-
 import UIKit
+#elseif os(macOS)
+import Cocoa
+#endif
 
 // Extensions relating to UIKit classes
 // UIImage
 // UIGestureRecognizer
 // UIPanGestureRecognizer
 // NSLayoutConstraint
+
+#if os(iOS)
 
 public extension UIImage {
     
@@ -115,11 +119,26 @@ public extension UIPanGestureRecognizer {
     }
 }
 
+#endif
+
 public extension NSLayoutConstraint {
     
     func activate() {
         isActive = true
     }
+    
+    func deactivate() {
+        isActive = false
+    }
 }
 
-#endif
+public extension Array where Element == NSLayoutConstraint {
+    
+    func activate() {
+        NSLayoutConstraint.activate(self)
+    }
+    
+    func deactivate() {
+        NSLayoutConstraint.deactivate(self)
+    }
+}

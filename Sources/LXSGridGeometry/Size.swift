@@ -54,3 +54,10 @@ public extension Size {
         return CGSize(width: width, height: height)
     }
 }
+
+public extension CGSize {
+    
+    var gridSize: Size {
+        return Size(width: Int(width), height: Int(height))
+    }
+}

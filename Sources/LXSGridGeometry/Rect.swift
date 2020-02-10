@@ -187,3 +187,10 @@ public extension Rect {
         return CGRect(origin: origin.cgPoint, size: size.cgSize)
     }
 }
+
+public extension CGRect {
+    
+    var gridRect: Rect {
+        return Rect(origin: origin.gridPoint, size: size.gridSize)
+    }
+}

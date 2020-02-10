@@ -1,6 +1,6 @@
 //
 //  TestExtensions.swift
-//  LXSCommonsTests
+//  LXSCommons
 //
 //  Created by Alex Rote on 6/19/18.
 //  Copyright © 2018 Alex Rote. All rights reserved.

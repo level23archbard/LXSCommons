@@ -10,9 +10,11 @@ let package = Package(
     ],
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
-        .library(name: "LXSCommons", targets: ["LXSCommons"]),
-        .library(name: "LXSPluginMP", targets: ["LXSCommons", "LXSPluginMP"]),
-        .library(name: "LXSPluginSCN", targets: ["LXSCommons", "LXSPluginSCN"]),
+        .library(name: "LXSCommons", targets: ["LXSCommons", "LXSLogging", "LXSRandom"]),
+        .library(name: "LXSGridGeometry", targets: ["LXSGridGeometry"]),
+        .library(name: "LXSLinearAlgebra", targets: ["LXSLinearAlgebra"]),
+        .library(name: "LXSPluginMP", targets: ["LXSPluginMP"]),
+        .library(name: "LXSPluginSCN", targets: ["LXSPluginSCN"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -23,6 +25,16 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(name: "LXSCommons", dependencies: []),
         .testTarget(name: "LXSCommonsTests", dependencies: ["LXSCommons"]),
+        
+        .target(name: "LXSLogging", dependencies: []),
+        
+        .target(name: "LXSRandom", dependencies: ["LXSCommons"]),
+        .testTarget(name: "LXSRandomTests", dependencies: ["LXSRandom"]),
+        
+        .target(name: "LXSGridGeometry", dependencies: []),
+        
+        .target(name: "LXSLinearAlgebra", dependencies: ["LXSCommons"]),
+        .testTarget(name: "LXSLinearAlgebraTests", dependencies: ["LXSLinearAlgebra"]),
         
         .target(name: "LXSPluginMP"),
         

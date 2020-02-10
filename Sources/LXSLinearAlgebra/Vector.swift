@@ -8,6 +8,7 @@
 
 import Foundation
 import Accelerate
+import LXSCommons
 
 struct Vector: Equatable, CustomStringConvertible {
     

@@ -36,3 +36,10 @@ public extension Point {
         return CGPoint(x: x, y: y)
     }
 }
+
+public extension CGPoint {
+    
+    var gridPoint: Point {
+        return Point(x: Int(x), y: Int(y))
+    }
+}

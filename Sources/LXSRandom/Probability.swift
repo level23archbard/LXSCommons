@@ -6,6 +6,8 @@
 //  Copyright © 2019 Alex Rote. All rights reserved.
 //
 
+import LXSCommons
+
 public struct Probability: ExpressibleByFloatLiteral, ExpressibleByBooleanLiteral {
     
     // MARK: - Probability Constants
@@ -16,7 +18,7 @@ public struct Probability: ExpressibleByFloatLiteral, ExpressibleByBooleanLitera
     
     // MARK: - Probability Initialization
     
-    private var p: Double
+    internal var p: Double
     
     public typealias FloatLiteralType = Double
     public typealias BooleanLiteralType = Bool
@@ -51,11 +53,11 @@ public struct Probability: ExpressibleByFloatLiteral, ExpressibleByBooleanLitera
     
     // MARK: - Probability Use
     
-    var isProbablyTrue: Bool {
+    public var isProbablyTrue: Bool {
         return p >= Probability.uncertain.p
     }
     
-    var isProbablyFalse: Bool {
+    public var isProbablyFalse: Bool {
         return p <= Probability.uncertain.p
     }
     

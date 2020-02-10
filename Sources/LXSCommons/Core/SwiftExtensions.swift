@@ -6,38 +6,37 @@
 //  Copyright © 2016 Alex Rote. All rights reserved.
 //
 
-// Extensions relating to core structures
-// Bool
-// String
-// Data
-//
 // Extensions relating to core protocols
 // Stridable
+// Collection
 // RangeReplaceableCollection
-
-// MARK: - Structs
-
-public extension Bool {
-    
-    static func random(probability: Probability) -> Bool {
-        return Bool.random(with: Random.Binary(p: probability))
-    }
-    
-    static func random(with generator: RandomBoolGenerator) -> Bool {
-        return generator.bool()
-    }
-}
 
 // MARK: - Protocols
 
-public extension Strideable {
+public extension Comparable {
     
     func bounded(by bounds: ClosedRange<Self>) -> Self {
         return min(max(self, bounds.lowerBound), bounds.upperBound)
     }
     
+    func bounded(by bounds: PartialRangeFrom<Self>) -> Self {
+        return max(self, bounds.lowerBound)
+    }
+    
+    func bounded(by bounds: PartialRangeThrough<Self>) -> Self {
+        return min(self, bounds.upperBound)
+    }
+    
     func isBounded(by bounds: ClosedRange<Self>) -> Bool {
-        return bounds.lowerBound < self && self < bounds.upperBound
+        return bounds.contains(self)
+    }
+    
+    func isBounded(by bounds: PartialRangeFrom<Self>) -> Bool {
+        return bounds.contains(self)
+    }
+    
+    func isBounded(by bounds: PartialRangeThrough<Self>) -> Bool {
+        return bounds.contains(self)
     }
 }
 
