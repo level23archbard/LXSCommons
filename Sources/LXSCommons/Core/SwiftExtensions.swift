@@ -51,6 +51,17 @@ public extension Collection {
     }
 }
 
+public extension RangeReplaceableCollection {
+    
+    @discardableResult mutating func removeFirst(objectWhere predicate: (Element) throws -> Bool) rethrows -> Element? {
+        if let index = try firstIndex(where: predicate) {
+            return remove(at: index)
+        } else {
+            return nil
+        }
+    }
+}
+
 public extension RangeReplaceableCollection where Element : Equatable {
     
     @discardableResult mutating func removeFirst(object: Element) -> Element? {

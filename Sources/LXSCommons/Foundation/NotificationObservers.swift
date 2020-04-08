@@ -17,6 +17,10 @@ public class NotificationObservers {
         self.notificationCenter = notificationCenter
     }
     
+    deinit {
+        removeObservers()
+    }
+    
     public func addObserver(forName: Notification.Name, object: Any? = nil, queue: OperationQueue? = nil, using: @escaping (Notification) -> Void) {
         observers.append(notificationCenter.addObserver(forName: forName, object: object, queue: queue, using: using))
     }

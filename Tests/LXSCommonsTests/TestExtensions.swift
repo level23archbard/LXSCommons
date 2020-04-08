@@ -54,6 +54,9 @@ class TestExtensions: XCTestCase {
         test = testArray.removeFirst(object: 10)
         XCTAssertEqual(testArray.count, originalCount - 2)
         XCTAssertEqual(test, nil)
+        test = testArray.removeFirst(objectWhere: { $0 > 10 })
+        XCTAssertEqual(testArray.count, originalCount - 3)
+        XCTAssertEqual(test, 12)
     }
     
     func testStridableBounded() {
