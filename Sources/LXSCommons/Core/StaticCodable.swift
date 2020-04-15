@@ -10,11 +10,6 @@ public protocol StaticCodable: Codable, Identifiable, CaseIterable, Hashable, Co
 
 extension StaticCodable {
     
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encode(id)
-    }
-    
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let id = try container.decode(ID.self)
@@ -23,6 +18,11 @@ extension StaticCodable {
         } else {
             throw StaticCodableError.identifierNotRecognized
         }
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(id)
     }
 }
 

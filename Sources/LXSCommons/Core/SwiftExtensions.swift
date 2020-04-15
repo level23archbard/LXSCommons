@@ -72,3 +72,14 @@ public extension RangeReplaceableCollection where Element : Equatable {
         }
     }
 }
+
+public extension LosslessStringConvertible {
+    
+    init?(_ description: String?) {
+        if let description = description {
+            self.init(description)
+        } else {
+            return nil
+        }
+    }
+}
