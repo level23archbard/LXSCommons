@@ -13,6 +13,7 @@ public enum Log {}
 extension Log {
     
     public enum Level {
+        case fatal
         case error
         case warning
         case info
@@ -28,6 +29,7 @@ extension Log.Level: Comparable {
     
     private var approximateValue: Int {
         switch self {
+        case .fatal: return 3
         case .error: return 2
         case .warning: return 1
         case .info: return 0
@@ -64,6 +66,11 @@ extension Log {
     
     // Log String
     
+    public static func fatal(_ message: String) -> Never {
+        event(Event(level: .fatal, message))
+        return fatalError()
+    }
+    
     public static func error(_ message: String) {
         event(Event(level: .error, message))
     }
@@ -86,6 +93,11 @@ extension Log {
     
     // Log String Protocol
     
+    public static func fatal<S: StringProtocol>(_ message: S) -> Never {
+        event(Event(level: .fatal, message))
+        return fatalError()
+    }
+    
     public static func error<S: StringProtocol>(_ message: S) {
         event(Event(level: .error, message))
     }
@@ -107,6 +119,11 @@ extension Log {
     }
     
     // Log Static String
+    
+    public static func fatal(_ message: StaticString) -> Never {
+        event(Event(level: .fatal, message))
+        return fatalError()
+    }
     
     public static func error(_ message: StaticString) {
         event(Event(level: .error, message))
@@ -131,6 +148,11 @@ extension Log {
     // Log Dynamic Messages
     
     public typealias DynamicString = () -> (String)
+    
+    public static func fatal(_ dynamicMessage: @escaping DynamicString) -> Never {
+        event(Event(level: .fatal, dynamicMessage))
+        return fatalError()
+    }
     
     public static func error(_ dynamicMessage: @escaping DynamicString) {
         event(Event(level: .error, dynamicMessage))
@@ -202,6 +224,8 @@ extension Log {
     public static func event(_ event: Event) {
         var event = event
         switch event.level {
+        case .fatal:
+            fatalError(event.read())
         case .error:
             #if DEBUG
             fatalError(event.read())
