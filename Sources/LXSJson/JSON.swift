@@ -11,7 +11,7 @@
 public struct JSON {
     
     // The internalType contains all physical properties of the data.
-    var internalType: JSONInternalType
+    internal var internalType: JSONInternalType
     
     /// Initializing an empty JSON will create an 'undefined' entry.
     public init() {
