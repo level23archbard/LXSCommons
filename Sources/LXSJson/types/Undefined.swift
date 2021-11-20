@@ -16,6 +16,6 @@ public extension JSON {
     
     /// Performs the 'delete' operator on the data, clearing all data and setting the reference to 'undefined'.
     static func delete(data json: inout JSON) {
-        json.internalType = .undefined
+        json.internalValue = .undefined
     }
 }

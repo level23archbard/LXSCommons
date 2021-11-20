@@ -18,11 +18,29 @@ public extension JSON {
     init(value: Bool) {
         self = value ? .true : .false
     }
+    
+    /// Initializes a JSON entry using a boolean value, or 'undefined' if nil.
+    init(value: Bool?) {
+        if let value = value {
+            self = JSON(value: value)
+        } else {
+            self = .undefined
+        }
+    }
+    
+    /// Initializes a JSON entry using a boolean value, or 'null' if nil.
+    init(optionalValue: Bool?) {
+        if let value = optionalValue {
+            self = JSON(value: value)
+        } else {
+            self = .null
+        }
+    }
 }
 
 extension JSON: ExpressibleByBooleanLiteral {
     
     public init(booleanLiteral value: Bool) {
-        internalType = .boolean(value)
+        internalValue = .boolean(value)
     }
 }

@@ -10,10 +10,10 @@ public extension JSON {
     
     subscript(property: String) -> JSON {
         get {
-            return internalType.propertyGet(key: property)
+            return internalValue.propertyGet(key: property)
         }
         set {
-            internalType.propertySet(key: property, value: newValue)
+            internalValue.propertySet(key: property, value: newValue)
         }
     }
     
@@ -28,10 +28,10 @@ public extension JSON {
     
     subscript(key: JSON) -> JSON {
         get {
-            self[JSON.stringValue(key)]
+            self[key.internalValue.stringValue]
         }
         set {
-            self[JSON.stringValue(key)] = newValue
+            self[key.internalValue.stringValue] = newValue
         }
     }
     
@@ -45,14 +45,20 @@ public extension JSON {
     }
 }
 
-extension JSON {
+public extension JSON {
     
-    static func hasOwnProperty(_ json: JSON, property: String) -> Bool {
-        return json.internalType.propertyCheck(key: property)
+    /// Similar to the javascript counterpart, returns if the JSON is an object or array that contains the given property itself.
+    func _hasOwnProperty(_ property: JSON) -> JSON {
+        return JSON(value: internalValue.propertyCheck(key: property.internalValue.stringValue))
+    }
+    
+    /// Similar to the javascript counterpart, returns if the JSON is an object or array that contains the given property itself.
+    static func hasOwnProperty(_ json: JSON, property: JSON) -> JSON {
+        return json._hasOwnProperty(property)
     }
 }
 
-extension JSONInternalType {
+extension InternalValue {
     
     func propertyGet(key: String) -> JSON {
         switch self {

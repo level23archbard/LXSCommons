@@ -77,12 +77,12 @@ extension JSONInternalDecoder {
         }
         
         var allKeys: [Key] {
-            guard case let .object(contentJson) = json.internalType else { return [] }
+            guard case let .object(contentJson) = json.internalValue else { return [] }
             return contentJson.keys.compactMap { Key(stringValue: $0) }
         }
         
         func contains(_ key: Key) -> Bool {
-            guard case let .object(contentJson) = json.internalType else { return false }
+            guard case let .object(contentJson) = json.internalValue else { return false }
             return contentJson.keys.contains(key.stringValue)
         }
         
@@ -129,7 +129,7 @@ extension JSONInternalDecoder {
         }
         
         var count: Int? {
-            guard case let .array(contentJson) = json.internalType else { return 0 }
+            guard case let .array(contentJson) = json.internalValue else { return 0 }
             return contentJson.count
         }
         
@@ -185,7 +185,7 @@ extension JSONInternalDecoder {
         }
         
         func decodeNil() -> Bool {
-            if case .null = json.internalType {
+            if case .null = json.internalValue {
                 return true
             } else {
                 return false
@@ -194,8 +194,8 @@ extension JSONInternalDecoder {
         
         func decode<T>(_ type: T.Type) throws -> T where T : Decodable {
             switch type {
-            case is Bool.Type: return try convertDecoded(json.internalType.truthy, to: type)
-            case is String.Type: return try convertDecoded(json.internalType.stringValue, to: type)
+            case is Bool.Type: return try convertDecoded(json.internalValue.truthy, to: type)
+            case is String.Type: return try convertDecoded(json.internalValue.stringValue, to: type)
             case is Double.Type: return try convertDecoded(try decodeNumber(), to: type)
             case is Float.Type: return try convertDecoded(Float(try decodeNumber()), to: type)
             case is Int.Type: return try convertDecoded(Int(try decodeNumber()), to: type)
@@ -215,7 +215,7 @@ extension JSONInternalDecoder {
         }
         
         func decodeNumber() throws -> Double {
-            if let value = json.internalType.doubleValue {
+            if let value = json.internalValue.doubleValue {
                 return value
             } else {
                 throw JSON.Decoder.Error.decodingNaN

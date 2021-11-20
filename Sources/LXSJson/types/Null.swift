@@ -15,6 +15,6 @@ public extension JSON {
 extension JSON: ExpressibleByNilLiteral {
     
     public init(nilLiteral: ()) {
-        internalType = .null
+        internalValue = .null
     }
 }

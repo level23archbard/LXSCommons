@@ -28,16 +28,30 @@ public extension JSON {
     
     /// Returns the type of the JSON data.
     static func typeOf(_ json: JSON) -> JSONType {
-        return json.internalType.type
+        return json.internalValue.type
+    }
+    
+    /// Returns a JSON check whether the JSON data's type matches the requested type.
+    func _instanceOf(type: JSONType) -> JSON {
+        return JSON(value: internalValue.type == type)
+    }
+    
+    /// Returns a JSON check whether the JSON data's type matches the requested type. If the requested type is not a valid type, this returns a false check.
+    func _instanceOf(type: JSON) -> JSON {
+        if let type = JSONType(rawValue: type.internalValue.stringValue) {
+            return _instanceOf(type: type)
+        } else {
+            return .false
+        }
     }
     
     /// Returns a JSON check whether the JSON data's type matches the requested type.
     static func instanceOf(_ json: JSON, type: JSONType) -> JSON {
-        return JSON(value: json.internalType.type == type)
+        return json._instanceOf(type: type)
     }
 }
 
-extension JSONInternalType {
+extension InternalValue {
     
     var type: JSON.JSONType {
         switch self {

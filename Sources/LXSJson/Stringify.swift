@@ -17,7 +17,7 @@ public extension JSON {
     
     /// Stringify works similar to its javascript counterpart. This variant outputs data instead of a string, though its contents are the same.
     static func stringifyData(_ json: JSON, prettify: Bool = false) -> Data {
-        if let nsObject = json.internalType.nsObjectify() {
+        if let nsObject = json.internalValue.nsObjectify() {
             var options: JSONSerialization.WritingOptions = .fragmentsAllowed
             if prettify {
                 options.insert(.prettyPrinted)
@@ -28,12 +28,12 @@ public extension JSON {
                 fatalError("Error trying to stringify JSON data, this should never happen! Error: \(error)")
             }
         } else {
-            return JSONInternalType.undefined.stringValue.data(using: .utf8) ?? Data()
+            return InternalValue.undefined.stringValue.data(using: .utf8) ?? Data()
         }
     }
 }
 
-fileprivate extension JSONInternalType {
+fileprivate extension InternalValue {
     
     // JSONSerialization operates on NSObject types, so turn into the corresponding type here.
     func nsObjectify() -> NSObject? {
@@ -49,11 +49,11 @@ fileprivate extension JSONInternalType {
         case .string(let string):
             return NSString(string: string)
         case .array(let array):
-            return NSArray(array: array.map { $0.internalType.nsObjectify() }.filter { $0 != nil }.map { $0 as Any })
+            return NSArray(array: array.map { $0.internalValue.nsObjectify() }.filter { $0 != nil }.map { $0 as Any })
         case .object(let dictionary):
             let nsDictionary = NSMutableDictionary()
             for (key, value) in dictionary {
-                if let nsObject = value.internalType.nsObjectify() {
+                if let nsObject = value.internalValue.nsObjectify() {
                     nsDictionary.setObject(nsObject, forKey: NSString(string: key))
                 }
             }

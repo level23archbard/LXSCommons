@@ -18,11 +18,11 @@ public extension JSON {
     
     /// Parse works similarly to its javascript counterpart. If the data is not a valid json object, an error will be thrown.
     static func parse(_ jsonData: Data) throws -> JSON {
-        guard jsonData != JSONInternalType.undefined.stringValue.data(using: .utf8) else { return .undefined }
+        guard jsonData != InternalValue.undefined.stringValue.data(using: .utf8) else { return .undefined }
         do {
             let object = try JSONSerialization.jsonObject(with: jsonData, options: .fragmentsAllowed)
             var json = JSON()
-            json.internalType = JSONInternalType.fromNsObject(nsObject: object)
+            json.internalValue = InternalValue.fromNsObject(nsObject: object)
             return json
         } catch {
             throw ParsingError.invalidJsonInput
@@ -34,9 +34,9 @@ public extension JSON {
     }
 }
 
-fileprivate extension JSONInternalType {
+fileprivate extension InternalValue {
     
-    static func fromNsObject(nsObject: Any) -> JSONInternalType {
+    static func fromNsObject(nsObject: Any) -> InternalValue {
         // Note that we can never generate an 'undefined' from JSON NSObject representors
         if nsObject is NSNull {
             return .null

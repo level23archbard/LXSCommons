@@ -9,17 +9,22 @@
 public extension JSON {
     
     /// Returns a new data converted to a string representation.
+    func _toString() -> JSON {
+        return JSON(value: internalValue.stringValue)
+    }
+    
+    /// Returns a new data converted to a string representation.
     static func toString(_ json: JSON) -> JSON {
-        return JSON(value: JSON.stringValue(json))
+        return json._toString()
     }
     
     /// Returns the string value represented or coerced by the data.
     static func stringValue(_ json: JSON) -> String {
-        return json.internalType.stringValue
+        return json.internalValue.stringValue
     }
 }
 
-extension JSONInternalType {
+extension InternalValue {
     
     var stringValue: String {
         switch self {
@@ -33,7 +38,7 @@ extension JSONInternalType {
                 return String(double)
             }
         case .string(let string): return string
-        case .array(let array): return array.map { $0.internalType.stringValue }.joined(separator: ",")
+        case .array(let array): return array.map { $0.internalValue.stringValue }.joined(separator: ",")
         case .object(_): return "[object Object]" // The lovely
         }
     }

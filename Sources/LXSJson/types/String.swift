@@ -10,13 +10,31 @@ public extension JSON {
     
     /// Initializes a JSON entry using a string value.
     init(value: String) {
-        internalType = .string(value)
+        internalValue = .string(value)
+    }
+    
+    /// Initializes a JSON entry using a string value, or 'undefined' if nil.
+    init(value: String?) {
+        if let value = value {
+            self = JSON(value: value)
+        } else {
+            self = .undefined
+        }
+    }
+    
+    /// Initializes a JSON entry using a string value, or 'null' if nil.
+    init(optionalValue: String?) {
+        if let value = optionalValue {
+            self = JSON(value: value)
+        } else {
+            self = .null
+        }
     }
 }
 
 extension JSON: ExpressibleByStringLiteral {
     
     public init(stringLiteral value: String) {
-        internalType = .string(value)
+        internalValue = .string(value)
     }
 }

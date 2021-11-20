@@ -308,11 +308,11 @@ final class LXSJsonTestBasics: XCTestCase {
         obj.d = true
         XCTAssertEqual(typeOf(obj.d), "boolean")
         XCTAssertEqual(JSON.isTruthy(obj.d), true)
-        XCTAssertTrue(JSON.hasOwnProperty(obj, property: "a"))
-        XCTAssertTrue(JSON.hasOwnProperty(obj, property: "b"))
-        XCTAssertTrue(JSON.hasOwnProperty(obj, property: "c"))
-        XCTAssertTrue(JSON.hasOwnProperty(obj, property: "d"))
-        XCTAssertFalse(JSON.hasOwnProperty(obj, property: "e"))
+        XCTAssertTrue(JSON.isTruthy(JSON.hasOwnProperty(obj, property: "a")))
+        XCTAssertTrue(JSON.isTruthy(JSON.hasOwnProperty(obj, property: "b")))
+        XCTAssertTrue(JSON.isTruthy(JSON.hasOwnProperty(obj, property: "c")))
+        XCTAssertTrue(JSON.isTruthy(JSON.hasOwnProperty(obj, property: "d")))
+        XCTAssertFalse(JSON.isTruthy(JSON.hasOwnProperty(obj, property: "e")))
         
         var arr: JSON = ["a", "b", "c"]
         XCTAssertEqual(typeOf(arr[0]), "string")

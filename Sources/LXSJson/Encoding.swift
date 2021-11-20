@@ -94,9 +94,9 @@ extension JSONInternalEncoder {
                 json[key] = try value.makeJson()
             }
             for content in merging {
-                guard case let .object(contentJson) = try content.makeJson().internalType else { throw JSON.Encoder.Error.superclassStructureConflict }
+                guard case let .object(contentJson) = try content.makeJson().internalValue else { throw JSON.Encoder.Error.superclassStructureConflict }
                 for (key, value) in contentJson {
-                    guard !JSON.hasOwnProperty(json, property: key) else { throw JSON.Encoder.Error.superclassKeyConflict(key: key) }
+                    guard json.internalValue.propertyCheck(key: key) else { throw JSON.Encoder.Error.superclassKeyConflict(key: key) }
                     json[key] = value
                 }
             }
@@ -191,7 +191,7 @@ extension JSONInternalEncoder {
                 index += 1
             }
             for content in merging {
-                guard case let .array(contentJson) = try content.makeJson().internalType else { throw JSON.Encoder.Error.superclassStructureConflict }
+                guard case let .array(contentJson) = try content.makeJson().internalValue else { throw JSON.Encoder.Error.superclassStructureConflict }
                 for value in contentJson {
                     json[index] = value
                     index += 1
@@ -202,7 +202,7 @@ extension JSONInternalEncoder {
         
         var count: Int {
             return merging.reduce(local.count, { total, next in
-                if case let .array(contentJson) = try? next.makeJson().internalType {
+                if case let .array(contentJson) = try? next.makeJson().internalValue {
                     return total + contentJson.count
                 } else {
                     return total
@@ -263,25 +263,25 @@ extension JSONInternalEncoder {
         }
         
         func encodeNil() throws {
-            json.internalType = .null
+            json.internalValue = .null
         }
         
         func encode<T>(_ value: T) throws where T : Encodable {
             switch value {
-            case let v as Bool: json.internalType = .boolean(v)
-            case let v as String: json.internalType = .string(v)
-            case let v as Double: json.internalType = .number(v)
-            case let v as Float: json.internalType = .number(Double(v))
-            case let v as Int: json.internalType = .number(Double(v))
-            case let v as Int8: json.internalType = .number(Double(v))
-            case let v as Int16: json.internalType = .number(Double(v))
-            case let v as Int32: json.internalType = .number(Double(v))
-            case let v as Int64: json.internalType = .number(Double(v))
-            case let v as UInt: json.internalType = .number(Double(v))
-            case let v as UInt8: json.internalType = .number(Double(v))
-            case let v as UInt16: json.internalType = .number(Double(v))
-            case let v as UInt32: json.internalType = .number(Double(v))
-            case let v as UInt64: json.internalType = .number(Double(v))
+            case let v as Bool: json.internalValue = .boolean(v)
+            case let v as String: json.internalValue = .string(v)
+            case let v as Double: json.internalValue = .number(v)
+            case let v as Float: json.internalValue = .number(Double(v))
+            case let v as Int: json.internalValue = .number(Double(v))
+            case let v as Int8: json.internalValue = .number(Double(v))
+            case let v as Int16: json.internalValue = .number(Double(v))
+            case let v as Int32: json.internalValue = .number(Double(v))
+            case let v as Int64: json.internalValue = .number(Double(v))
+            case let v as UInt: json.internalValue = .number(Double(v))
+            case let v as UInt8: json.internalValue = .number(Double(v))
+            case let v as UInt16: json.internalValue = .number(Double(v))
+            case let v as UInt32: json.internalValue = .number(Double(v))
+            case let v as UInt64: json.internalValue = .number(Double(v))
             default:
                 let encoder = JSONInternalEncoder(codingPath: codingPath, userInfo: userInfo)
                 try value.encode(to: encoder)
