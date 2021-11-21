@@ -82,6 +82,20 @@ public extension Dictionary {
     init<S>(takingLast keysAndValues: S) where S : Sequence, S.Element == (Key, Value) {
         self = Dictionary(keysAndValues, uniquingKeysWith: { _, last in last })
     }
+    
+    func mapKeys<K>(_ transform: (Key) throws -> K) rethrows -> [K : Value] {
+        return Dictionary<K, Value>(takingFirst: try self.map { key, value in (try transform(key), value) })
+    }
+    
+    func compactMapKeys<K>(_ transform: (Key) throws -> K?) rethrows -> [K : Value] {
+        return Dictionary<K, Value>(takingFirst: try self.compactMap { key, value in
+            if let k = try transform(key) {
+                return (k, value)
+            } else {
+                return nil
+            }
+        })
+    }
 }
 
 public extension LosslessStringConvertible {
