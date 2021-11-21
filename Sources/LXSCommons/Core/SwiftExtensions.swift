@@ -75,11 +75,11 @@ public extension RangeReplaceableCollection where Element : Equatable {
 
 public extension Dictionary {
     
-    init<S>(keyValuesTakingFirst keysAndValues: S) where S : Sequence, S.Element == (Key, Value) {
+    init<S>(takingFirst keysAndValues: S) where S : Sequence, S.Element == (Key, Value) {
         self = Dictionary(keysAndValues, uniquingKeysWith: { first, _ in first })
     }
     
-    init<S>(keyValuesTakingLast keysAndValues: S) where S : Sequence, S.Element == (Key, Value) {
+    init<S>(takingLast keysAndValues: S) where S : Sequence, S.Element == (Key, Value) {
         self = Dictionary(keysAndValues, uniquingKeysWith: { _, last in last })
     }
 }
