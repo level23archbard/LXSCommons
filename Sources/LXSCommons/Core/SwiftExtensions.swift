@@ -27,11 +27,19 @@ public extension Comparable {
         return min(self, bounds.upperBound)
     }
     
+    func isBounded(by bounds: Range<Self>) -> Bool {
+        return bounds.contains(self)
+    }
+    
     func isBounded(by bounds: ClosedRange<Self>) -> Bool {
         return bounds.contains(self)
     }
     
     func isBounded(by bounds: PartialRangeFrom<Self>) -> Bool {
+        return bounds.contains(self)
+    }
+    
+    func isBounded(by bounds: PartialRangeUpTo<Self>) -> Bool {
         return bounds.contains(self)
     }
     
