@@ -13,13 +13,21 @@ public struct NodeDetails {
     /// The title of the node.
     public var title: String?
     /// The right action button of the node.
-    public var rightButtonAction: Optional<(String, () -> ())>
+    public var rightButtonAction: Optional<(NodeDetailsButtonType, () -> ())>
     
     /// Creates a new set of details.
-    public init(title: String? = nil, rightButtonAction: Optional<(String, () -> ())> = nil) {
+    public init(title: String? = nil, rightButtonAction: Optional<(NodeDetailsButtonType, () -> ())> = nil) {
         self.title = title
         self.rightButtonAction = rightButtonAction
     }
+}
+
+/// The type of button that can be displayed for a node.
+public enum NodeDetailsButtonType {
+    /// A text style button.
+    case text(String)
+    /// An icon style button.
+    case icon(Image)
 }
 
 /// A modifier that describes the current node in the stack.

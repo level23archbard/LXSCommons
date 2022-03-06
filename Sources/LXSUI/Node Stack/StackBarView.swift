@@ -33,12 +33,26 @@ struct StackBarView: View {
                 StackBarTitle()
                 Spacer()
                 if let action = details.currentDetails?.rightButtonAction {
-                    Button(action.0, action: action.1)
+                    action.0.makeButton(action: action.1)
                         .foregroundColor(barStrokeColor)
                 }
             }
             .frame(height: barHeight)
             .padding(.top, topSafeArea)
+        }
+    }
+}
+
+fileprivate extension NodeDetailsButtonType {
+    
+    func makeButton(action: @escaping () -> ()) -> some View {
+        switch self {
+        case .text(let text):
+            return AnyView(Button(text, action: action))
+        case .icon(let icon):
+            return AnyView(Button(action: action, label: {
+                icon
+            }))
         }
     }
 }
