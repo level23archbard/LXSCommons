@@ -11,7 +11,6 @@ import SwiftUI
 struct StackBarView: View {
     
     @Environment(\.themePrimaryColor) private var barFillColor: Color
-    @Environment(\.themeSecondaryColor) private var barStrokeColor: Color
     @EnvironmentObject private var stack: ControllerStackHolder
     @EnvironmentObject private var details: ControllerNodeDetailsHolder
     
@@ -34,7 +33,6 @@ struct StackBarView: View {
                 Spacer()
                 if let action = details.currentDetails?.rightButtonAction {
                     action.0.makeButton(action: action.1)
-                        .foregroundColor(barStrokeColor)
                 }
             }
             .frame(height: barHeight)
@@ -48,31 +46,68 @@ fileprivate extension NodeDetailsButtonType {
     func makeButton(action: @escaping () -> ()) -> some View {
         switch self {
         case .text(let text):
-            return AnyView(Button(text, action: action))
+            return AnyView(StackBarTextButton(action: action, text: text))
         case .icon(let icon):
-            return AnyView(Button(action: action, label: {
-                icon
-            }))
+            return AnyView(StackBarIconButton(action: action, icon: icon))
         }
+    }
+}
+
+fileprivate struct StackBarIconButton: View {
+    
+    @Environment(\.themeSecondaryColor) private var color: Color
+    
+    let action: () -> ()
+    let icon: Image
+    
+    init(action: @escaping () -> (), icon: Image) {
+        self.action = action
+        self.icon = icon
+    }
+    
+    var body: some View {
+        Button(action: action) {
+            icon
+            .frame(width: 20, height: 20)
+            .padding(6)
+        }
+        .foregroundColor(color)
+    }
+}
+
+fileprivate struct StackBarTextButton: View {
+    
+    @Environment(\.themeSecondaryColor) private var color: Color
+    
+    let action: () -> ()
+    let text: String
+    
+    init(action: @escaping () -> (), text: String) {
+        self.action = action
+        self.text = text
+    }
+    
+    var body: some View {
+        Button(text, action: action)
+        .foregroundColor(color)
     }
 }
 
 fileprivate struct StackBarBackButton: View {
     
-    @Environment(\.themeSecondaryColor) private var barStrokeColor: Color
+    @Environment(\.themeSecondaryColor) private var color: Color
     @EnvironmentObject private var controller: NodeStackNavigationController
     
     var body: some View {
-        Button("Back") {
+        StackBarIconButton(action: {
             controller.pop()
-        }
-        .foregroundColor(barStrokeColor)
+        }, icon: .back)
     }
 }
 
 fileprivate struct StackBarTitle: View {
     
-    @Environment(\.themeSecondaryColor) private var barStrokeColor: Color
+    @Environment(\.themeSecondaryColor) private var color: Color
     @EnvironmentObject private var details: ControllerNodeDetailsHolder
     
     var body: some View {
@@ -84,7 +119,7 @@ fileprivate struct StackBarTitle: View {
         }
         if let title = title {
             return AnyView(Text(title)
-                .foregroundColor(barStrokeColor))
+                .foregroundColor(color))
         } else {
             return AnyView(EmptyView())
         }
