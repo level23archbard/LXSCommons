@@ -37,6 +37,7 @@ let package = Package(
         .testTarget(name: "LXSRandomTests", dependencies: ["LXSRandom"]),
         
         .target(name: "LXSGridGeometry", dependencies: []),
+        .testTarget(name: "LXSGridGeometryTests", dependencies: ["LXSGridGeometry"]),
         
         .target(name: "LXSLinearAlgebra", dependencies: ["LXSCommons"]),
         .testTarget(name: "LXSLinearAlgebraTests", dependencies: ["LXSLinearAlgebra"]),

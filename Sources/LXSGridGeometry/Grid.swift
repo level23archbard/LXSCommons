@@ -24,8 +24,9 @@ public struct Grid<Element> {
         self.init(rect: size.bounds, initialValue: initialValue)
     }
     
+    // This indexing is equivalent to row by row indexing
     private func valuesIndex(from point: Point) -> Int {
-        return point.y * rect.width + point.x
+        return (point.y - rect.minY) * abs(rect.width) + (point.x - rect.minX)
     }
     
     public subscript(point: Point) -> Element {
