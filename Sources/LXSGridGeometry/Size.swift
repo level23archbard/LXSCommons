@@ -58,6 +58,21 @@ public extension Size {
     }
 }
 
+// MARK: - Square
+
+public extension Size {
+    
+    /// Creates a square size with equal width and height values.
+    init(square length: Int) {
+        self.init(width: length, height: length)
+    }
+    
+    /// Checks whether the size represents a square, meaning a grid of this size has equal width and height.
+    var isSquare: Bool {
+        return width == height
+    }
+}
+
 // MARK: - Interoperability
 
 public extension Size {

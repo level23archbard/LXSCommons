@@ -19,6 +19,11 @@ public struct Grid<Element> {
         self.values = Array(repeating: initialValue, count: rect.count)
     }
     
+    /// Creates a grid with the initial value configured to every point in a rect of the given size.
+    public init(size: Size, initialValue: Element) {
+        self.init(rect: size.bounds, initialValue: initialValue)
+    }
+    
     private func valuesIndex(from point: Point) -> Int {
         return point.y * rect.width + point.x
     }
