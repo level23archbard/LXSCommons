@@ -120,6 +120,26 @@ public extension Rect {
         return std.origin.y + std.height - 1
     }
     
+    /// The point on the rect with the minimum x and y values.
+    var minXminY: Point {
+        return Point(x: minX, y: minY)
+    }
+    
+    /// The point on the rect with the minimum x and maximum y values.
+    var minXmaxY: Point {
+        return Point(x: minX, y: maxY)
+    }
+    
+    /// The point on the rect with the maximum x and minimum y values.
+    var maxXminY: Point {
+        return Point(x: maxX, y: minY)
+    }
+    
+    /// The point on the rect with the maximum x and y values.
+    var maxXmaxY: Point {
+        return Point(x: maxX, y: maxY)
+    }
+    
     /// The range of X values or columns of the rect. If the rect's size is not empty, a point with each of these values will be part of the rect's collection.
     var rangeX: CountableClosedRange<Int> {
         return minX...maxX
