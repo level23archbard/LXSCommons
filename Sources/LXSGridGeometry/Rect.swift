@@ -120,6 +120,22 @@ public extension Rect {
         return std.origin.y + std.height - 1
     }
     
+    /// Gets the minimum value of the rect along a given axis. If the rect's size is not empty, a point with this value will be part of the rect's collection.
+    func min(along axis: Axis) -> Int {
+        switch axis {
+        case .x: return minX
+        case .y: return minY
+        }
+    }
+    
+    /// Gets the maximum value of the rect along a given axis. If the rect's size is not empty, a point with this value will be part of the rect's collection.
+    func max(along axis: Axis) -> Int {
+        switch axis {
+        case .x: return maxX
+        case .y: return maxY
+        }
+    }
+    
     /// The point on the rect with the minimum x and y values.
     var minXminY: Point {
         return Point(x: minX, y: minY)
@@ -148,6 +164,14 @@ public extension Rect {
     /// The range of Y values or columns of the rect. If the rect's size is not empty, a point with each of these values will be part of the rect's collection.
     var rangeY: CountableClosedRange<Int> {
         return minY...maxY
+    }
+    
+    /// The range of values of the rect along a given axis. If the rect's size is not empty, a point with each of these values will be part of the rect's collection.
+    func range(along axis: Axis) -> CountableClosedRange<Int> {
+        switch axis {
+        case .x: return rangeX
+        case .y: return rangeY
+        }
     }
     
     /// Creates a rect between the X range and Y range, including all points within the ranges.

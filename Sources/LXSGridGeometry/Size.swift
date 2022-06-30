@@ -33,6 +33,30 @@ public extension Size {
     static let zero = Size(width: 0, height: 0)
 }
 
+// MARK: - Axis
+
+public extension Size {
+    
+    func value(along axis: Axis) -> Int {
+        return self[axis]
+    }
+    
+    subscript(axis: Axis) -> Int {
+        get {
+            switch axis {
+            case .x: return width
+            case .y: return height
+            }
+        }
+        set {
+            switch axis {
+            case .x: width = newValue
+            case .y: height = newValue
+            }
+        }
+    }
+}
+
 // MARK: - Area
 
 public extension Size {

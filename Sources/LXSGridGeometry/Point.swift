@@ -33,6 +33,31 @@ public extension Point {
     static let zero = Point(x: 0, y: 0)
 }
 
+// MARK: - Axis
+
+public extension Point {
+    
+    /// The value of the point associated with the given axis.
+    func value(of axis: Axis) -> Int {
+        return self[axis]
+    }
+    
+    subscript(axis: Axis) -> Int {
+        get {
+            switch axis {
+            case .x: return x
+            case .y: return y
+            }
+        }
+        set {
+            switch axis {
+            case .x: x = newValue
+            case .y: y = newValue
+            }
+        }
+    }
+}
+
 // MARK: - Advancing
 
 public extension Point {
@@ -50,6 +75,14 @@ public extension Point {
     /// Gets the point offset from this point by the specified amounts on each respective axis.
     func advanced(byX xAmount: Int, byY yAmount: Int) -> Point {
         return Point(x: x + xAmount, y: y + yAmount)
+    }
+    
+    /// Gets the point offset from this point along the given axis by a specified amount.
+    func advanced(along axis: Axis, by amount: Int) -> Point {
+        switch axis {
+        case .x: return advancedAlongX(by: amount)
+        case .y: return advancedAlongY(by: amount)
+        }
     }
     
     /// Gets the next point offset from this point along the x axis.

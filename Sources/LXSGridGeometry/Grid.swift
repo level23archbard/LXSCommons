@@ -13,6 +13,9 @@ public struct Grid<Element> {
     /// The rect of the grid, which describes the possible points that can index the grid.
     public let rect: Rect
     
+    /// The size of the grid, which describes the size of the grid's rect.
+    public var size: Size { rect.size }
+    
     /// Creates a grid with the initial value configured to every point in the rect.
     public init(rect: Rect, initialValue: Element) {
         self.rect = rect
