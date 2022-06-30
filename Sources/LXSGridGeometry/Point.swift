@@ -33,6 +33,46 @@ public extension Point {
     static let zero = Point(x: 0, y: 0)
 }
 
+// MARK: - Advancing
+
+public extension Point {
+    
+    /// Gets the point offset from this point along the x axis by a specified amount.
+    func advancedAlongX(by amount: Int) -> Point {
+        return advanced(byX: amount, byY: 0)
+    }
+    
+    /// Gets the point offset from this point along the y axis by a specified amount.
+    func advancedAlongY(by amount: Int) -> Point {
+        return advanced(byX: 0, byY: amount)
+    }
+    
+    /// Gets the point offset from this point by the specified amounts on each respective axis.
+    func advanced(byX xAmount: Int, byY yAmount: Int) -> Point {
+        return Point(x: x + xAmount, y: y + yAmount)
+    }
+    
+    /// Gets the next point offset from this point along the x axis.
+    var nextAlongX: Point {
+        return advancedAlongX(by: 1)
+    }
+    
+    /// Gets the next point offset from this point along the y axis.
+    var nextAlongY: Point {
+        return advancedAlongY(by: 1)
+    }
+    
+    /// Gets the previous point offset from this point along the x axis.
+    var previousAlongX: Point {
+        return advancedAlongX(by: -1)
+    }
+    
+    /// Gets the previous point offset from this point along the y axis.
+    var previousAlongY: Point {
+        return advancedAlongY(by: -1)
+    }
+}
+
 // MARK: - Interoperability
 
 public extension Point {
