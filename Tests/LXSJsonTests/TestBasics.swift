@@ -301,10 +301,26 @@ final class LXSJsonTestBasics: XCTestCase {
         XCTAssertEqual(JSON.doubleValue(obj.b), 4.2)
         XCTAssertEqual(typeOf(obj.c), "string")
         XCTAssertEqual(JSON.stringValue(obj.c), "42")
+        XCTAssertEqual(obj.keys.count, 3)
+        XCTAssertTrue(obj.keys.contains("a"))
+        XCTAssertTrue(obj.keys.contains("b"))
+        XCTAssertTrue(obj.keys.contains("c"))
+        XCTAssertEqual(obj.values.count, 3)
+        XCTAssertTrue(obj.values.contains(where: { typeOf($0) == "number" && JSON.doubleValue($0) == 42 }))
+        XCTAssertTrue(obj.values.contains(where: { typeOf($0) == "number" && JSON.doubleValue($0) == 4.2 }))
+        XCTAssertTrue(obj.values.contains(where: { typeOf($0) == "string" && JSON.stringValue($0) == "42" }))
         obj.a = "4.2"
         XCTAssertEqual(typeOf(obj.a), "string")
         XCTAssertEqual(JSON.stringValue(obj.a), "4.2")
         XCTAssertEqual(typeOf(obj.d), "undefined")
+        XCTAssertEqual(obj.keys.count, 3)
+        XCTAssertTrue(obj.keys.contains("a"))
+        XCTAssertTrue(obj.keys.contains("b"))
+        XCTAssertTrue(obj.keys.contains("c"))
+        XCTAssertEqual(obj.values.count, 3)
+        XCTAssertTrue(obj.values.contains(where: { typeOf($0) == "string" && JSON.stringValue($0) == "4.2" }))
+        XCTAssertTrue(obj.values.contains(where: { typeOf($0) == "number" && JSON.doubleValue($0) == 4.2 }))
+        XCTAssertTrue(obj.values.contains(where: { typeOf($0) == "string" && JSON.stringValue($0) == "42" }))
         obj.d = true
         XCTAssertEqual(typeOf(obj.d), "boolean")
         XCTAssertEqual(JSON.isTruthy(obj.d), true)
@@ -313,6 +329,16 @@ final class LXSJsonTestBasics: XCTestCase {
         XCTAssertTrue(JSON.isTruthy(JSON.hasOwnProperty(obj, property: "c")))
         XCTAssertTrue(JSON.isTruthy(JSON.hasOwnProperty(obj, property: "d")))
         XCTAssertFalse(JSON.isTruthy(JSON.hasOwnProperty(obj, property: "e")))
+        XCTAssertEqual(obj.keys.count, 4)
+        XCTAssertTrue(obj.keys.contains("a"))
+        XCTAssertTrue(obj.keys.contains("b"))
+        XCTAssertTrue(obj.keys.contains("c"))
+        XCTAssertTrue(obj.keys.contains("d"))
+        XCTAssertEqual(obj.values.count, 4)
+        XCTAssertTrue(obj.values.contains(where: { typeOf($0) == "string" && JSON.stringValue($0) == "4.2" }))
+        XCTAssertTrue(obj.values.contains(where: { typeOf($0) == "number" && JSON.doubleValue($0) == 4.2 }))
+        XCTAssertTrue(obj.values.contains(where: { typeOf($0) == "string" && JSON.stringValue($0) == "42" }))
+        XCTAssertTrue(obj.values.contains(where: { typeOf($0) == "boolean" && JSON.isTruthy($0) == true }))
         
         var arr: JSON = ["a", "b", "c"]
         XCTAssertEqual(typeOf(arr[0]), "string")
@@ -322,16 +348,176 @@ final class LXSJsonTestBasics: XCTestCase {
         XCTAssertEqual(typeOf(arr[2]), "string")
         XCTAssertEqual(JSON.stringValue(arr[2]), "c")
         XCTAssertEqual(typeOf(arr[3]), "undefined")
+        XCTAssertEqual(arr.keys.count, 3)
+        XCTAssertTrue(arr.keys.contains("0"))
+        XCTAssertTrue(arr.keys.contains("1"))
+        XCTAssertTrue(arr.keys.contains("2"))
+        XCTAssertEqual(arr.values.count, 3)
+        XCTAssertEqual(typeOf(arr.values[0]), "string")
+        XCTAssertEqual(JSON.stringValue(arr.values[0]), "a")
+        XCTAssertEqual(typeOf(arr.values[1]), "string")
+        XCTAssertEqual(JSON.stringValue(arr.values[1]), "b")
+        XCTAssertEqual(typeOf(arr.values[2]), "string")
+        XCTAssertEqual(JSON.stringValue(arr.values[2]), "c")
         arr[3] = 42
         XCTAssertEqual(typeOf(arr[3]), "number")
         XCTAssertEqual(JSON.doubleValue(arr[3]), 42)
+        XCTAssertEqual(arr.keys.count, 4)
+        XCTAssertTrue(arr.keys.contains("0"))
+        XCTAssertTrue(arr.keys.contains("1"))
+        XCTAssertTrue(arr.keys.contains("2"))
+        XCTAssertTrue(arr.keys.contains("3"))
+        XCTAssertEqual(arr.values.count, 4)
+        XCTAssertEqual(typeOf(arr.values[0]), "string")
+        XCTAssertEqual(JSON.stringValue(arr.values[0]), "a")
+        XCTAssertEqual(typeOf(arr.values[1]), "string")
+        XCTAssertEqual(JSON.stringValue(arr.values[1]), "b")
+        XCTAssertEqual(typeOf(arr.values[2]), "string")
+        XCTAssertEqual(JSON.stringValue(arr.values[2]), "c")
+        XCTAssertEqual(typeOf(arr.values[3]), "number")
+        XCTAssertEqual(JSON.doubleValue(arr.values[3]), 42)
         arr[1] = .null
         XCTAssertEqual(typeOf(arr[1]), "null")
         XCTAssertEqual(JSON.stringValue(arr["0"]), "a")
         XCTAssertEqual(typeOf(arr["1"]), "null")
         XCTAssertEqual(JSON.stringValue(arr[2]), "c")
         XCTAssertEqual(JSON.doubleValue(arr[3]), 42)
+        XCTAssertEqual(arr.keys.count, 4)
+        XCTAssertTrue(arr.keys.contains("0"))
+        XCTAssertTrue(arr.keys.contains("1"))
+        XCTAssertTrue(arr.keys.contains("2"))
+        XCTAssertTrue(arr.keys.contains("3"))
+        XCTAssertEqual(arr.values.count, 4)
+        XCTAssertEqual(typeOf(arr.values[0]), "string")
+        XCTAssertEqual(JSON.stringValue(arr.values[0]), "a")
+        XCTAssertEqual(typeOf(arr.values[1]), "null")
+        XCTAssertEqual(typeOf(arr.values[2]), "string")
+        XCTAssertEqual(JSON.stringValue(arr.values[2]), "c")
+        XCTAssertEqual(typeOf(arr.values[3]), "number")
+        XCTAssertEqual(JSON.doubleValue(arr.values[3]), 42)
         
         XCTAssertEqual(typeOf(JSON(value: 42).test), "undefined")
+    }
+    
+    func testEquals() {
+        var first: JSON = 42
+        var second: JSON = 42
+        XCTAssertTrue(first == second)
+        XCTAssertTrue(first.isStrictlyEqual(to: second))
+        XCTAssertTrue(first.isLooselyEqual(to: second))
+        
+        first = 42
+        second = 43
+        XCTAssertFalse(first == second)
+        XCTAssertFalse(first.isStrictlyEqual(to: second))
+        XCTAssertFalse(first.isLooselyEqual(to: second))
+        
+        first = "42"
+        second = "43"
+        XCTAssertFalse(first == second)
+        XCTAssertFalse(first.isStrictlyEqual(to: second))
+        XCTAssertFalse(first.isLooselyEqual(to: second))
+        
+        first = [42]
+        second = [42]
+        XCTAssertTrue(first == second)
+        XCTAssertTrue(first.isStrictlyEqual(to: second))
+        XCTAssertTrue(first.isLooselyEqual(to: second))
+        
+        first = ["a": 42]
+        second = ["a": 42]
+        XCTAssertTrue(first == second)
+        XCTAssertTrue(first.isStrictlyEqual(to: second))
+        XCTAssertTrue(first.isLooselyEqual(to: second))
+        
+        first = .null
+        second = .null
+        XCTAssertTrue(first == second)
+        XCTAssertTrue(first.isStrictlyEqual(to: second))
+        XCTAssertTrue(first.isLooselyEqual(to: second))
+        
+        first = .undefined
+        second = .undefined
+        XCTAssertTrue(first == second)
+        XCTAssertTrue(first.isStrictlyEqual(to: second))
+        XCTAssertTrue(first.isLooselyEqual(to: second))
+        
+        first = .null
+        second = .undefined
+        XCTAssertFalse(first == second)
+        XCTAssertFalse(first.isStrictlyEqual(to: second))
+        XCTAssertTrue(first.isLooselyEqual(to: second))
+        
+        first = .undefined
+        second = .null
+        XCTAssertFalse(first == second)
+        XCTAssertFalse(first.isStrictlyEqual(to: second))
+        XCTAssertTrue(first.isLooselyEqual(to: second))
+        
+        first = true
+        second = "1"
+        XCTAssertFalse(first == second)
+        XCTAssertFalse(first.isStrictlyEqual(to: second))
+        XCTAssertTrue(first.isLooselyEqual(to: second))
+        
+        first = "1"
+        second = true
+        XCTAssertFalse(first == second)
+        XCTAssertFalse(first.isStrictlyEqual(to: second))
+        XCTAssertTrue(first.isLooselyEqual(to: second))
+        
+        first = true
+        second = "true"
+        XCTAssertFalse(first == second)
+        XCTAssertFalse(first.isStrictlyEqual(to: second))
+        XCTAssertFalse(first.isLooselyEqual(to: second))
+        
+        first = "true"
+        second = true
+        XCTAssertFalse(first == second)
+        XCTAssertFalse(first.isStrictlyEqual(to: second))
+        XCTAssertFalse(first.isLooselyEqual(to: second))
+        
+        first = false
+        second = "0"
+        XCTAssertFalse(first == second)
+        XCTAssertFalse(first.isStrictlyEqual(to: second))
+        XCTAssertTrue(first.isLooselyEqual(to: second))
+        
+        first = "0"
+        second = false
+        XCTAssertFalse(first == second)
+        XCTAssertFalse(first.isStrictlyEqual(to: second))
+        XCTAssertTrue(first.isLooselyEqual(to: second))
+        
+        first = false
+        second = "false"
+        XCTAssertFalse(first == second)
+        XCTAssertFalse(first.isStrictlyEqual(to: second))
+        XCTAssertFalse(first.isLooselyEqual(to: second))
+        
+        first = "false"
+        second = false
+        XCTAssertFalse(first == second)
+        XCTAssertFalse(first.isStrictlyEqual(to: second))
+        XCTAssertFalse(first.isLooselyEqual(to: second))
+        
+        first = 1
+        second = "1"
+        XCTAssertFalse(first == second)
+        XCTAssertFalse(first.isStrictlyEqual(to: second))
+        XCTAssertTrue(first.isLooselyEqual(to: second))
+        
+        first = "1"
+        second = 1
+        XCTAssertFalse(first == second)
+        XCTAssertFalse(first.isStrictlyEqual(to: second))
+        XCTAssertTrue(first.isLooselyEqual(to: second))
+        
+        first = ["a": 42]
+        second = [42]
+        XCTAssertFalse(first == second)
+        XCTAssertFalse(first.isStrictlyEqual(to: second))
+        XCTAssertFalse(first.isLooselyEqual(to: second))
     }
 }

@@ -6,7 +6,7 @@
 //  Copyright © 2021 Alex Rote. All rights reserved.
 //
 
-/// The JSON struct holds an arbitrary piece of data. It is designed to be entirely flexible within its own operation, much like javascript data. When using JSON, perform as many operations within its context as possible before extracting it to Swift data. Due to dynamic property support, most operators are defined statically rather than by instance. For example, `JSON.isTruthy(someJson)` rather than `someJson.isTruthy`. This allows for the possibility of the JSON data underneath actually allowing the key, isTruthy, to be read as-is instead of requiring certain overrides. Apart from this, certain operators will also be defined by instance as functions, when inputs and outputs all operate within JSON data. These operator functions will always be prefixed by an underscore, to grant space between them and a possible property. For example, `someJson._length()` rather than `someJson.length`. For these operators, the statically defined operator will also be available for use.
+/// The JSON struct holds an arbitrary piece of data. It is designed to be entirely flexible within its own operation, much like javascript data, and dynamic member lookup to simulate arbitrary accessing. It is also generally styled with Swift patterns and protocol support where it makes sense. When using JSON, perform as many operations within its context as possible before extracting it to Swift data. Due to dynamic property support, most operators are defined statically in addition to instanced. For example, `JSON.isTruthy(someJson)` rather than `someJson.isTruthy`. This can help clarify that the intended operation is not to use a JSON property. If a property is masked by a function, it can always be accessed by index as well. For example, `someJson["isTruthy"]` will always access a property in the JSON data itself.
 @dynamicMemberLookup
 public struct JSON {
     
@@ -41,3 +41,8 @@ internal enum InternalValue {
     // Objects will write curly-braced key-values into JSON structures.
     case object([String: JSON])
 }
+
+// Extended in the declaring file. View the Equals functions for additional details. Note that, conforming with Swift definitions, this definitions of equals is the same as the javascript definition of the === operator.
+
+extension JSON: Equatable {}
+extension InternalValue: Equatable {}

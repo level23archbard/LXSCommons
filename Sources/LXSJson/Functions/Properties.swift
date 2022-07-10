@@ -47,14 +47,37 @@ public extension JSON {
 
 public extension JSON {
     
+    /// Returns an array containing all keys of the data. This will only return owned properties of the data. Unowned properties, such as keys of a string or properties such as `length`, will not be returned.
+    var keys: [String] {
+        return internalValue.keys ?? []
+    }
+    
+    /// Returns an array containing all keys of the data. This will only return owned properties of the data. Unowned properties, such as keys of a string or properties such as `length`, will not be returned.
+    static func keys(_ json: JSON) -> [String] {
+        return json.keys
+    }
+    
+    /// Returns an array containing all values of the data. This returns a Swift array, not a JSON array. This will only return owned properites of the data. Unowned properties, such as values in a string or properties such as `length`, will not be returned.
+    var values: [JSON] {
+        return internalValue.values ?? []
+    }
+    
+    /// Returns an array containing all values of the data. This returns a Swift array, not a JSON array. This will only return owned properites of the data. Unowned properties, such as values in a string or properties such as `length`, will not be returned.
+    static func values(_ json: JSON) -> [JSON] {
+        return json.values
+    }
+}
+
+public extension JSON {
+    
     /// Similar to the javascript counterpart, returns if the JSON is an object or array that contains the given property itself.
-    func _hasOwnProperty(_ property: JSON) -> JSON {
+    func hasOwnProperty(_ property: JSON) -> JSON {
         return JSON(value: internalValue.propertyCheck(key: property.internalValue.stringValue))
     }
     
     /// Similar to the javascript counterpart, returns if the JSON is an object or array that contains the given property itself.
     static func hasOwnProperty(_ json: JSON, property: JSON) -> JSON {
-        return json._hasOwnProperty(property)
+        return json.hasOwnProperty(property)
     }
 }
 
@@ -97,6 +120,22 @@ extension InternalValue {
         case .object(let dictionary):
             return dictionary.keys.contains(key)
         default: return false
+        }
+    }
+    
+    var keys: [String]? {
+        switch self {
+        case .array(let array): return array.indices.map { String($0) }
+        case .object(let dictionary): return Array(dictionary.keys)
+        default: return nil
+        }
+    }
+    
+    var values: [JSON]? {
+        switch self {
+        case .array(let array): return array
+        case .object(let dictionary): return Array(dictionary.values)
+        default: return nil
         }
     }
 }

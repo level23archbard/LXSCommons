@@ -9,27 +9,37 @@
 public extension JSON {
     
     /// Returns a new data converted to a number representation. Note that unlike javascript, JSON does not support NaN number representations, these will be converted to undefined instead.
-    func _toNumber() -> JSON {
+    var toNumber: JSON {
         return JSON(value: internalValue.doubleValue)
     }
     
     /// Returns a new data converted to a number representation. Note that unlike javascript, JSON does not support NaN number representations, these will be converted to undefined instead.
     static func toNumber(_ json: JSON) -> JSON {
-        return json._toNumber()
+        return json.toNumber
+    }
+    
+    /// Returns the double value represented or coerced by the data.
+    var doubleValue: Double? {
+        return internalValue.doubleValue
     }
     
     /// Returns the double value represented or coerced by the data.
     static func doubleValue(_ json: JSON) -> Double? {
-        return json.internalValue.doubleValue
+        return json.doubleValue
     }
     
     /// Returns the integer value represented or coerced by the data.
-    static func intValue(_ json: JSON) -> Int? {
-        if let value = doubleValue(json) {
+    var intValue: Int? {
+        if let value = doubleValue {
             return Int(value)
         } else {
             return nil
         }
+    }
+    
+    /// Returns the integer value represented or coerced by the data.
+    static func intValue(_ json: JSON) -> Int? {
+        return json.intValue
     }
 }
 

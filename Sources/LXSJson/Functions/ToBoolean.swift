@@ -9,18 +9,23 @@
 public extension JSON {
     
     /// Returns a new data converted to a boolean representation.
-    func _toBoolean() -> JSON {
+    var toBoolean: JSON {
         return JSON(value: internalValue.truthy)
     }
     
     /// Returns a new data converted to a boolean representation.
     static func toBoolean(_ json: JSON) -> JSON {
-        return json._toBoolean()
+        return json.toBoolean
+    }
+    
+    /// Returns the truthy value represented or coerced by the data.
+    var isTruthy: Bool {
+        return internalValue.truthy
     }
     
     /// Returns the truthy value represented or coerced by the data.
     static func isTruthy(_ json: JSON) -> Bool {
-        return json.internalValue.truthy
+        return json.isTruthy
     }
 }
 

@@ -9,18 +9,23 @@
 public extension JSON {
     
     /// Returns a new data converted to a string representation.
-    func _toString() -> JSON {
+    var toString: JSON {
         return JSON(value: internalValue.stringValue)
     }
     
     /// Returns a new data converted to a string representation.
     static func toString(_ json: JSON) -> JSON {
-        return json._toString()
+        return json.toString
+    }
+    
+    /// Returns the string value represented or coerced by the data.
+    var stringValue: String {
+        return internalValue.stringValue
     }
     
     /// Returns the string value represented or coerced by the data.
     static func stringValue(_ json: JSON) -> String {
-        return json.internalValue.stringValue
+        return json.stringValue
     }
 }
 
