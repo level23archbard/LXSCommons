@@ -18,11 +18,7 @@ public struct Palette {
     public var background: PaletteColor
     
     /// Creates a new Palette.
-    public init(
-        theme: PaletteColor = PaletteColor(primary: .accentColor, secondary: .white),
-        stroke: PaletteColor = PaletteColor(primary: .primary, secondary: .secondary),
-        background: PaletteColor = PaletteColor(primary: Color(uiColor: .systemBackground), secondary: Color(uiColor: .secondarySystemBackground))
-    ) {
+    public init(theme: PaletteColor = .defaultTheme, stroke: PaletteColor = .defaultStroke, background: PaletteColor = .defaultbackground) {
         self.theme = theme
         self.stroke = stroke
         self.background = background
@@ -31,6 +27,22 @@ public struct Palette {
 
 /// A Palette Color specifies a hierarchy of color options, noting fine-tuning of values as needed.
 public struct PaletteColor {
+    
+    /// The default theme colors.
+    public static let defaultTheme = PaletteColor(primary: .accentColor, secondary: .white)
+    /// The default stroke colors.
+    public static let defaultStroke = PaletteColor(primary: .primary, secondary: .secondary)
+    #if os(iOS)
+    /// The default  background colors.
+    public static let defaultbackground = PaletteColor(primary: Color(uiColor: .systemBackground), secondary: Color(uiColor: .secondarySystemBackground))
+    #elseif os(macOS)
+    /// The default  background colors.
+    public static let defaultbackground = PaletteColor(primary: Color(nsColor: .windowBackgroundColor), secondary: Color(nsColor: .underPageBackgroundColor))
+    #else
+    // No system defaults? Just pick something for now...
+    /// The default  background colors.
+    public static let defaultBackground = PaletteColor(primary: Color(white: 1), secondary: Color(white: 0.9))
+    #endif
     
     /// The primary color of the palette.
     public var primary: Color
