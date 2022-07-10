@@ -48,6 +48,14 @@ public extension Comparable {
     }
 }
 
+public extension Sequence {
+    
+    /// Returns an array containing the non-nil elements of this sequence.
+    func compact<T>() -> [T] where Element == Optional<T> {
+        return compactMap { element in element }
+    }
+}
+
 public extension Collection {
     
     var nonEmpty: Self? {

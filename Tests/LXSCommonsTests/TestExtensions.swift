@@ -42,6 +42,11 @@ class TestExtensions: XCTestCase {
         XCTAssertEqual(testRange5, complexTest.dropLast())
     }
     
+    func testSequence() {
+        let testArray = [2, nil, 3, 8, 11, nil, 42, nil]
+        XCTAssertEqual(testArray.compact(), [2, 3, 8, 11, 42])
+    }
+    
     func testRangeReplaceableCollectionRemoveObject() {
         var testArray = [3, 6, 9, 12]
         let originalCount = testArray.count
