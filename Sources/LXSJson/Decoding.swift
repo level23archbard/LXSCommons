@@ -80,7 +80,7 @@ extension JSON {
         /// The possible options available when decoding JSON data.
         public struct Options {
             /// These options relate to how strings are parsed from different kinds of JSON data.
-            var stringParsingOptions = StringParsingOptions.default
+            public var stringParsingOptions = StringParsingOptions.default
             
             /// The default options.
             public static let `default` = Options()
