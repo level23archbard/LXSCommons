@@ -101,5 +101,11 @@ final class LXSJsonTestCoding: XCTestCase {
         }
         let test = try JSON.Decoder().decode(TestOuter.self, from: j)
         XCTAssertEqual(test, TestOuter(one: "1", two: "two", three: [1, 2, 3, 4], four: TestInner(x: nil, y: 42)))
+        
+        j.two = .undefined
+        var decoder = JSON.Decoder()
+        decoder.options.stringParsingOptions.undefinedParsing = .asEmpty
+        let test2 = try decoder.decode(TestOuter.self, from: j)
+        XCTAssertEqual(test2, TestOuter(one: "1", two: "", three: [1, 2, 3, 4], four: TestInner(x: nil, y: 42)))
     }
 }
